@@ -5,9 +5,10 @@ from pytube import YouTube
 SAVE_PATH = "./yt_downloaded"
 
 
-def download_video(url, file_extension):
+def download_video(url, quality, file_extension):
     try:
         yt = YouTube(url)
+        yt = yt.get(file_extension, quality)
     except Exception as e:
         print("Connection Error", e)
         sys.exit(1)
@@ -22,11 +23,13 @@ def download_video(url, file_extension):
         print('Video Donwloaded successfully')
     except Exception as e:
         print("Error occured", e)
+        raise e
 
 
 if __name__ == '__main__':
     if sys.argv.__len__() == 1:
         file_extension = 'mp4'
+        quality = '720p'
     else:
         file_extension = sys.argv[1]
-    download_video(input("URL for youtube video :: "), file_extension)
+    download_video(input("URL for youtube video :: "), quality, file_extension)
